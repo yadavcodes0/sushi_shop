@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sushi_shop/models/food.dart';
+import 'package:provider/provider.dart';
+import 'package:sushi_shop/models/shop.dart';
 
 import '../../../components/food_tile.dart';
 import '../../food_details_page/food_details.dart';
@@ -13,6 +14,8 @@ class MenuList extends StatefulWidget {
 
 class _MenuListState extends State<MenuList> {
   void navigateToFoodDetails(int index) {
+    final shop = context.read<Shop>();
+    final foodMenu = shop.foodMenu;
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -25,6 +28,8 @@ class _MenuListState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
+    final shop = context.read<Shop>();
+    final foodMenu = shop.foodMenu;
     return Expanded(
       child: ListView.builder(
         itemCount: foodMenu.length,
