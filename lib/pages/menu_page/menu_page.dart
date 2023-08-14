@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
 import 'package:sushi_shop/pages/menu_page/widgets/menu_list.dart';
 
+import '../../models/shop.dart';
 import 'widgets/popular_food.dart';
 import 'widgets/promo_banner.dart';
 
@@ -16,6 +18,8 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
+    final shop = context.read<Shop>();
+    final foodMenu = shop.foodMenu;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -24,17 +28,24 @@ class _MenuPageState extends State<MenuPage> {
           statusBarIconBrightness: Brightness.dark,
         ),
         backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey[800],
         elevation: 0,
-        leading: Icon(
+        leading: const Icon(
           Icons.menu,
-          color: Colors.grey[900],
         ),
-        title: Text(
+        title: const Text(
           "Tokyo",
-          style: TextStyle(
-            color: Colors.grey[900],
-          ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/cartPage');
+            },
+            icon: const Icon(
+              Icons.shopping_cart,
+            ),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,10 +117,9 @@ class _MenuPageState extends State<MenuPage> {
           const SizedBox(height: 10),
 
           // popular food
-          const PopularFood()
-              .animate()
-              .fadeIn(duration: const Duration(seconds: 1))
-              .slide(),
+          PopularFood(
+            food: foodMenu[2],
+          ).animate().fadeIn(duration: const Duration(seconds: 1)).slide(),
         ],
       ),
     );

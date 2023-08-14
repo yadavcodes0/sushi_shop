@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sushi_shop/models/food.dart';
+import 'package:sushi_shop/models/shop.dart';
 import 'package:sushi_shop/themes/colors.dart';
 
 import '../../../components/button.dart';
 
 class FoodDetailsBottomWidget extends StatefulWidget {
+  final Food food;
   final String price;
-  final VoidCallback onTap;
 
   const FoodDetailsBottomWidget({
     super.key,
     required this.price,
-    required this.onTap,
+    required this.food,
   });
 
   @override
@@ -25,7 +28,9 @@ class _FoodDetailsBottomWidgetState extends State<FoodDetailsBottomWidget> {
   // decrement quantity
   void decrementQuantity() {
     setState(() {
-      quantityCount--;
+      if (quantityCount > 0) {
+        quantityCount--;
+      }
     });
   }
 
@@ -34,6 +39,53 @@ class _FoodDetailsBottomWidgetState extends State<FoodDetailsBottomWidget> {
     setState(() {
       quantityCount++;
     });
+  }
+
+  // add to cart
+  void addToCart() {
+    // only add to cart if there is something in the cart
+    if (quantityCount > 0) {
+      // get access to shop
+      final shop = context.read<Shop>();
+
+      // add to cart
+      shop.addToCart(widget.food, quantityCount);
+
+      // let the user know it was added
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            backgroundColor: primaryColor,
+            content: const Text(
+              "Successfully added to cart.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            actions: [
+              // okay button
+              IconButton(
+                onPressed: () {
+                  // pop once to remove dialog box
+                  Navigator.pop(context);
+
+                  // pop again to go previous screen
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.done,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -115,7 +167,7 @@ class _FoodDetailsBottomWidgetState extends State<FoodDetailsBottomWidget> {
           MyButton(
             icon: Icons.shopping_bag_outlined,
             borderRadius: BorderRadius.circular(40),
-            onTap: widget.onTap,
+            onTap: addToCart,
             text: 'Add to Cart',
             padding: const EdgeInsets.all(15),
           ),

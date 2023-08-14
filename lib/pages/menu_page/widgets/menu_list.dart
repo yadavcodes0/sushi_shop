@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sushi_shop/models/food.dart';
 
 import '../../../components/food_tile.dart';
-import '../../../models/food.dart';
 import '../../food_details_page/food_details.dart';
 
 class MenuList extends StatefulWidget {

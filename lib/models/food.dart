@@ -17,8 +17,7 @@ class Food {
   String get _rating => rating;
 }
 
-// food menu
-List foodMenu = [
+final List<Food> foodMenu = [
   // salmon sushi
   Food(
     name: "Salmon Sushi",
@@ -33,5 +32,12 @@ List foodMenu = [
     price: "24.0",
     imagePath: "assets/tuna.png",
     rating: "4.5",
-  )
+  ),
+
+  Food(
+    name: "Salmon Eggs",
+    price: "21.0",
+    imagePath: "assets/salmon_eggs.png",
+    rating: "4.7",
+  ),
 ];

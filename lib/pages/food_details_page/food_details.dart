@@ -60,7 +60,10 @@ class _FoodDetailsState extends State<FoodDetails> {
           ),
 
           // price + quantity + add to cart button
-          FoodDetailsBottomWidget(price: widget.food.price, onTap: () {}),
+          FoodDetailsBottomWidget(
+            price: widget.food.price,
+            food: widget.food,
+          ),
         ],
       ),
     );
